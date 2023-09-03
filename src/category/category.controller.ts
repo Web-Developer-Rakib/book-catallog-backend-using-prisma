@@ -9,10 +9,10 @@ export const createCategory = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { title } = req.body;
+    const { name } = req.body;
     const category = await prisma.category.create({
       data: {
-        title,
+        name,
       },
     });
     res.status(201).json({
@@ -82,7 +82,7 @@ export const getSingleCategory = async (
         message: "Category fetched successfully",
         data: {
           id: category.id,
-          title: category.title,
+          title: category.name,
           books: books,
         },
       });
@@ -103,7 +103,7 @@ export const updateCategory = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const { title } = req.body;
+    const { name } = req.body;
     const category = await prisma.category.findUnique({
       where: {
         id,
@@ -121,7 +121,7 @@ export const updateCategory = async (
           id,
         },
         data: {
-          title,
+          name,
         },
       });
       res.status(200).json({

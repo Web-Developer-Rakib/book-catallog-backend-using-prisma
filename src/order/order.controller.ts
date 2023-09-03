@@ -14,31 +14,6 @@ export const createOrder = async (
     // Generate a new UUID for the order
     const orderId = uuidv4();
 
-    // Calculate the total price of the ordered books
-    let totalPrice = 0;
-    for (const orderedBook of orderedBooks) {
-      const { bookId, quantity } = orderedBook;
-
-      // Fetch the book's price from the database
-      const book = await prisma.book.findUnique({
-        where: {
-          id: bookId,
-        },
-      });
-
-      if (!book) {
-        res.status(404).json({
-          success: false,
-          statusCode: 404,
-          message: `Book with ID ${bookId} not found.`,
-        });
-      }
-
-      // Calculate the price for this book and quantity
-      const bookPrice = book.price;
-      totalPrice += bookPrice * quantity;
-    }
-
     // Create the order in the database
     const createdOrder = await prisma.order.create({
       data: {
@@ -51,7 +26,6 @@ export const createOrder = async (
           })),
         },
         status: "pending",
-        totalPrice,
       },
     });
     res.status(200).json({

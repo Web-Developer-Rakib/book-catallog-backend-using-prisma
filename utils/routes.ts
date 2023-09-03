@@ -1,7 +1,8 @@
 import authRouter from "../src/auth/auth.routes";
-import orderRouter from "../src/auth/order/order.routes";
+
 import bookRouter from "../src/book/book.routes";
 import categoryRouter from "../src/category/catagory.routes";
+import orderRouter from "../src/order/order.routes";
 import userRouter from "../src/user/user.routes";
 
 export const routes = [
