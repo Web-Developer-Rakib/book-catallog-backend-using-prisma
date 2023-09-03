@@ -95,4 +95,27 @@ export const getAllOrdersByUser = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { userId } = req.params;
+    const orders = await prisma.order.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Orders retrieved successfully",
+      data: orders,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to retrieve orders.",
+      error: error.message,
+    });
+  }
+};

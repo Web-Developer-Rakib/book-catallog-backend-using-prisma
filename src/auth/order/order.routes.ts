@@ -8,6 +8,6 @@ const orderRouter = express.Router();
 
 orderRouter.post("/create-order", createOrder);
 orderRouter.get("/", getAllOrders);
-orderRouter.get("/by-user", getAllOrdersByUser);
+orderRouter.get("/:userId", getAllOrdersByUser);
 
 export default orderRouter;
