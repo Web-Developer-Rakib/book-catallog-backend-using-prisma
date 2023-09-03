@@ -56,7 +56,46 @@ export const getSingleCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const category = await prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!category) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Category not found.",
+      });
+    } else {
+      const books = await prisma.book.findMany({
+        where: {
+          categoryId: id,
+        },
+      });
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Category fetched successfully",
+        data: {
+          id: category.id,
+          title: category.title,
+          books: books,
+        },
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to fetch the category.",
+      error: error.message, // You can customize the error message as needed
+    });
+  }
+};
 export const updateCategory = async (
   req: Request,
   res: Response,
