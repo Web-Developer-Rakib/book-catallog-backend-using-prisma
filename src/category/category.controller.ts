@@ -34,7 +34,24 @@ export const getAllCategories = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const categories = await prisma.category.findMany();
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Categories fetched successfully",
+      data: categories,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to fetch categories.",
+      error: error.message,
+    });
+  }
+};
 export const getSingleCategory = async (
   req: Request,
   res: Response,
