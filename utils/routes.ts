@@ -1,6 +1,8 @@
+import authRouter from "../src/auth/auth.routes";
+
 export const routes = [
   {
-    router: "",
-    path: "products",
+    router: "auth",
+    path: authRouter,
   },
 ];
