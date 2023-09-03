@@ -14,7 +14,7 @@ app.use(cors());
 // Routes
 routes.map((route) => app.use(`/api/v1/${route.path}`, route.router));
 // Server homepage for test
-app.use("/", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Server is running...");
 });
 // Server listning
