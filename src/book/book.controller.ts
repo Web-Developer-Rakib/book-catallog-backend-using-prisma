@@ -137,7 +137,37 @@ export const getSingleBook = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const book = await prisma.book.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!book) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Book not found.",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Book fetched successfully",
+        data: book,
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to fetch the book.",
+      error: error.message,
+    });
+  }
+};
 export const updateBook = async (
   req: Request,
   res: Response,
