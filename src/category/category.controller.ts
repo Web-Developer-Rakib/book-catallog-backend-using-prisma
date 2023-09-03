@@ -3,32 +3,27 @@ import { NextFunction, Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
-export const createBook = async (
+export const createCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {};
-export const getAllBooks = async (
+export const getAllCategories = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {};
-export const getBooksByCategory = async (
+export const getSingleCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {};
-export const getSingleBook = async (
+export const updateCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {};
-export const updateBook = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {};
-export const deleteBook = async (
+export const deleteCategory = async (
   req: Request,
   res: Response,
   next: NextFunction

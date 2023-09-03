@@ -14,7 +14,7 @@ export const signup = async (
       data: {
         name,
         email,
-        password, // You should hash the password before storing it in the database
+        password,
         role,
         contactNo,
         address,
