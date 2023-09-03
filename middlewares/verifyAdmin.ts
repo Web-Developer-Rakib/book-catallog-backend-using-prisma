@@ -15,7 +15,7 @@ const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
       token,
       `${process.env.ACCESS_TOKEN_SECRET}`
     );
-    if (decoded.role === "admin" || decoded.role === "user") {
+    if (decoded.role === "admin") {
       next();
     } else {
       return res.status(401).json({ message: "Access denied. Unauthorized." });
