@@ -225,4 +225,42 @@ export const deleteBook = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const book = await prisma.book.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!book) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Book not found.",
+      });
+    }
+
+    await prisma.book.delete({
+      where: {
+        id,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Book is deleted successfully",
+      data: book,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to delete the book.",
+      error: error.message,
+    });
+  }
+};
