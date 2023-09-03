@@ -172,7 +172,55 @@ export const updateBook = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { title, author, genre, price } = req.body;
+
+    const book = await prisma.book.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!book) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Book not found.",
+      });
+    } else {
+      const updatedBook = await prisma.book.update({
+        where: {
+          id,
+        },
+        data: {
+          title,
+          author,
+          genre,
+          price,
+        },
+        include: {
+          category: true,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Book updated successfully",
+        data: updatedBook,
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to update the book.",
+      error: error.message,
+    });
+  }
+};
 export const deleteBook = async (
   req: Request,
   res: Response,
