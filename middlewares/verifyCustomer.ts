@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-const verifyUser = (req: Request, res: Response, next: NextFunction) => {
+const verifyCustomer = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -15,7 +15,7 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       token,
       `${process.env.ACCESS_TOKEN_SECRET}`
     );
-    if (decoded.role === "admin" || decoded.role === "user") {
+    if (decoded.role === "customer") {
       next();
     } else {
       return res.status(401).json({ message: "Access denied. Unauthorized." });
@@ -24,4 +24,4 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: "Access denied. Invalid token." });
   }
 };
-export default verifyUser;
+export default verifyCustomer;
