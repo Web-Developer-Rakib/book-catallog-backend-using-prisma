@@ -92,7 +92,7 @@ export const getSingleCategory = async (
       success: false,
       statusCode: 500,
       message: "Failed to fetch the category.",
-      error: error.message, // You can customize the error message as needed
+      error: error.message,
     });
   }
 };
@@ -182,3 +182,4 @@ export const deleteCategory = async (
     });
   }
 };
+prisma.$disconnect();

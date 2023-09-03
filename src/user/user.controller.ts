@@ -150,3 +150,4 @@ export const deleteUser = async (
     });
   }
 };
+prisma.$disconnect();

@@ -93,3 +93,4 @@ export const getAllOrdersByUser = async (
     });
   }
 };
+prisma.$disconnect();

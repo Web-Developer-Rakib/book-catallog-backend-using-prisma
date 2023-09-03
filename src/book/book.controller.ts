@@ -264,3 +264,4 @@ export const deleteBook = async (
     });
   }
 };
+prisma.$disconnect();

@@ -44,3 +44,4 @@ export const signup = async (
     });
   }
 };
+prisma.$disconnect();
