@@ -84,7 +84,55 @@ export const getBooksByCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { categoryId } = req.params;
+    const { page = 1, size = 10 } = req.query;
+    const parsedPage = parseInt(page as string, 10);
+    const parsedSize = parseInt(size as string, 10);
+
+    const skip = (parsedPage - 1) * parsedSize;
+
+    const total = await prisma.book.count({
+      where: {
+        categoryId,
+      },
+    });
+
+    const books = await prisma.book.findMany({
+      where: {
+        categoryId,
+      },
+      skip,
+      take: parsedSize,
+      include: {
+        category: true,
+      },
+    });
+
+    const totalPage = Math.ceil(total / parsedSize);
+
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Books with associated category data fetched successfully",
+      meta: {
+        page: parsedPage,
+        size: parsedSize,
+        total,
+        totalPage,
+      },
+      data: books,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to fetch books by categoryId.",
+      error: error.message,
+    });
+  }
+};
 export const getSingleBook = async (
   req: Request,
   res: Response,
