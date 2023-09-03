@@ -144,4 +144,41 @@ export const deleteCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const category = await prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!category) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Category not found.",
+      });
+    } else {
+      await prisma.category.delete({
+        where: {
+          id,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Category deleted successfully",
+        data: category,
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to delete the category.",
+      error: error.message,
+    });
+  }
+};
