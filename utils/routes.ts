@@ -1,8 +1,13 @@
 import authRouter from "../src/auth/auth.routes";
+import userRouter from "../src/user/user.routes";
 
 export const routes = [
   {
-    router: "auth",
-    path: authRouter,
+    path: "auth",
+    router: authRouter,
+  },
+  {
+    path: "users",
+    router: userRouter,
   },
 ];

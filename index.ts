@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(errorHandler);
 app.use(cors());
 // Routes
-routes.map((route: any) => app.use(`/api/v1/${route.path}`, route.router));
+routes.map((route) => app.use(`/api/v1/${route.path}`, route.router));
 // Server homepage for test
 app.use("/", (req: Request, res: Response) => {
   res.send("Server is running...");
