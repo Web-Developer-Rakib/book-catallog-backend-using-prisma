@@ -100,7 +100,46 @@ export const updateCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const category = await prisma.category.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!category) {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Category not found.",
+      });
+    } else {
+      const updatedCategory = await prisma.category.update({
+        where: {
+          id,
+        },
+        data: {
+          title,
+        },
+      });
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Category updated successfully",
+        data: updatedCategory,
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      statusCode: 500,
+      message: "Failed to update the category.",
+      error: error.message,
+    });
+  }
+};
 export const deleteCategory = async (
   req: Request,
   res: Response,
